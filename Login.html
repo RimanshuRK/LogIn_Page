@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Login Page</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+
+
+        <script>
+
+            (function(){
+                const fonts = ["cursive","sans-serif","serif","monospace"];
+                let captchaValue = "";
+                function generateCaptcha(){
+                  let value = btoa(Math.random()*1000000000);
+                  value = value.substr(0,5+Math.random()*5);
+                  captchaValue = value;
+                }
+                function setCaptcha(){
+                  let html = captchaValue.split("").map((char)=>{
+                    const rotate = -20 + Math.trunc(Math.random()*30);
+                    const font = Math.trunc(Math.random()*fonts.length);
+                    return `<span
+                      style="
+                        transform:rotate(${rotate}deg);
+                        font-family:${fonts[font]}
+                      "
+                    >${char}</span>`;
+                  }).join("");
+                  document.querySelector(".login-form .captcha .preview").innerHTML = html;
+                }
+                function initCaptcha(){
+                  document.querySelector(".login-form .captcha .captcha-refresh").addEventListener("click",function(){
+                    generateCaptcha();
+                    setCaptcha();
+                  });
+                  generateCaptcha();
+                  setCaptcha();
+                }
+                initCaptcha();
+              
+                document.querySelector(".login-form #login-btn").addEventListener("click",function(){
+                  let inputCaptchaValue = document.querySelector(".login-form .captcha input").value;
+                  if(inputCaptchaValue === captchaValue){
+                    swal("", "Logging In!", "success");
+                  } else {
+                    swal("Invalid captcha");
+                  }
+                });
+              })();
+
+<!------------------------------------------------------------>
+
+
+            const passwordField = document.getElementById("password");
+            const togglePassword = document.querySelector(".password-toggle-icon i");
+            
+            togglePassword.addEventListener("click", function () {
+              if (passwordField.type === "password") {
+                passwordField.type = "text";
+                togglePassword.classList.remove("fa-eye");
+                togglePassword.classList.add("fa-eye-slash");
+              } else {
+                passwordField.type = "password";
+                togglePassword.classList.remove("fa-eye-slash");
+                togglePassword.classList.add("fa-eye");
+              }
+            });
+
+
+            
+        </script>
+
+
+    </head>
+    <body>
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <title>Login Form with Captcha</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="styles.css" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            
+          </head>
+          <body>
+        <div class="login-form">
+          <div class="form-title">
+            Login
+          </div>
+
+          <div class="form-input">
+            <label for="username">Username</label>
+            <input type="text" id="username">
+          </div>
+
+          <div class="form-input">
+            <label for="password">Password</label>
+            <input type="text" id="password">
+            <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+          </div>
+
+          <div class="captcha">
+            <label for="captcha-input">Enter Captcha</label>
+            <div class="preview"></div>
+            <div class="captcha-form">
+              <input type="text" id="captcha-form" placeholder="Enter captcha text">
+              <button class="captcha-refresh">
+                <i class="fa fa-refresh"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-input">
+            <button id="login-btn">Login</button>
+          </div>
+        </div>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script src="script.js"></script>
+          </body>
+        </html>
+
+
+        <script src="" async defer></script>
+    </body>
+</html>
